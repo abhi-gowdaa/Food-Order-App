@@ -2,8 +2,7 @@
   max-width: 60rem;
   width: 90%;
   margin: 2rem auto;
-  animation: meals-appear 2s ease-out forwards;
-  
+  animation: meals-appear 1s ease-out forwards;
 }
 
 .meals ul {
@@ -22,10 +21,4 @@
     opacity: 1;
     transform: translateY(0);
   }
-
- 
-
 }
-
-
-
