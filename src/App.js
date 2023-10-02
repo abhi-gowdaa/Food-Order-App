@@ -2,10 +2,16 @@ import Header from "./components/Layout/Header";
 import Meals from "./components/Meals/Meals";
 
 function App() {
+
+  const btnClick=()=>{
+      
+  }
   return (
+    
     <div>
-      <Header/>
+      <Header onClick={btnClick}/>
       <Meals/>
+     
     </div>
   );
 }
