@@ -7,7 +7,6 @@ const defaultCartState = {
 };
 
 const cartReducer = (state, action) => {
-
   if (action.type === "ADD") {
     const updatesTotalAmount =
       state.totalAmount + action.item.price * action.item.amount;
@@ -18,11 +17,11 @@ const cartReducer = (state, action) => {
 
     const existingCartItem = state.items[existingCartItemIndex];
     let updatedItems;
-    
+
     // to check if the item  already exist
     if (existingCartItem) {
       const updatedItem = {
-        ...existingCartItem,  
+        ...existingCartItem,
         amount: existingCartItem.amount + action.item.amount,
       };
       updatedItems = [...state.items];
@@ -37,23 +36,28 @@ const cartReducer = (state, action) => {
     };
   }
 
+  if (action.type === "REMOVE") {
+    const existingCartItemIndex = state.items.findIndex(
+      (item) => item.id === action.id
+    );
 
-if(action.type==='REMOVE')
-{
-  const existingCartItemIndex = state.items.findIndex(
-    (item) => item.id === action.id
-  );
+    const existingItem = state.items[existingCartItemIndex];
+    const updatedTotalAmount = state.totalAmount - existingItem.price;
+    let updatedItems;
+    if (existingItem.amount === 1) {
+      //if there is only one
+      updatedItems = state.items.filter((item) => item.id !== action.id);
+    } else {
+      const updatedItem = { ...existingItem, amount: existingItem.amount - 1 };
+      updatedItems = [...state.items];
+      updatedItems[existingCartItemIndex] = updatedItem;
+    }
 
-  const existingCartItem = state.items[existingCartItemIndex];
-  const updatedTotalAmount=state.totalAmount-existingCartItem.price;
-
- 
-return{
-  items:existingCartItem,
-  totalAmount:updatedTotalAmount
-}
-
-}
+    return {
+      items: updatedItems,
+      totalAmount: updatedTotalAmount,
+    };
+  }
 
   return defaultCartState;
 };
@@ -69,7 +73,7 @@ const CartProvider = (props) => {
     disPatchAction({ type: "REMOVE", id: id });
   };
 
-  const cartContext = {
+  const contextValue = {
     items: cartState.items,
     totalAmount: cartState.totalAmount,
     addItem: addItemToCartHandler,
@@ -77,7 +81,7 @@ const CartProvider = (props) => {
   };
 
   return (
-    <CartContext.Provider value={cartContext}>
+    <CartContext.Provider value={contextValue}>
       {props.children}
     </CartContext.Provider>
   );

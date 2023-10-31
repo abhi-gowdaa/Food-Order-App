@@ -22,8 +22,10 @@ const noOfTotalItem=cartCtx.items.reduce((curNumber,item)=>{
 //curnumbwe is a func tht calls , item is a item to be reduced
 
 
+const btnClasses=`${classes.button} ${classes.bump}`
+
     return(
-        <button className={classes.button} onClick={props.onClick} >
+        <button className={btnClasses} onClick={props.onClick} >
         <span className={classes.icon}><CartIcon /> </span>
         <span className={classes.cart}>Your Cart</span>
           <span className={classes['badge']}>{noOfTotalItem}</span>
